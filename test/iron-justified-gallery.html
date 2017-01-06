@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+	<head>
+		<title>paper-collapse-item</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+		<script src="../../web-component-tester/browser.js"></script>
+		<script src="../../test-fixture/test-fixture-mocha.js"></script>
+
+		<link rel="import" href="../iron-justified-gallery.html">
+		<link rel="import" href="../../test-fixture/test-fixture.html">
+	</head>
+	<body>
+
+		<test-fixture id="TrivialElement">
+			<template>
+				<iron-justified-gallery></iron-justified-gallery>
+			</template>
+		</test-fixture>
+
+		<script>
+			suite('<iron-justified-gallery>', function() {
+				suite('Gallery computation', function() {
+					var element;
+					var picturesInput = [{
+									    "width": 500,
+									    "url": "https://cdn.evbuc.com/eventlogos/3219606/malemodel.jpg",
+									    "height": 282
+									},
+									{
+									    "width": 500,
+									    "url": "https://s-media-cache-ak0.pinimg.com/736x/08/eb/93/08eb93645e048fca067ef18f18f23324.jpg",
+									    "height": 282
+									},
+									{
+									    "width": 1000,
+									    "url": "https://s-media-cache-ak0.pinimg.com/originals/76/2a/e8/762ae8d52b5edf7f3aca0cd2576eb348.jpg",
+									    "height": 282
+									},
+									{
+									    "width": 700,
+									    "url": "https://i.mdel.net/newfaces/i/2015/01/motw_matthewnoszka_01.png",
+									    "height": 282
+									},
+									{
+									    "width": 500,
+									    "url": "https://qph.ec.quoracdn.net/main-qimg-272df88b27e1bc5cb18f00a7b8de6011-c?convert_to_webp=true",
+									    "height": 282
+								  }];
+
+					setup(function() {
+						element = fixture('TrivialElement');
+					});
+
+					test('shows open toggle icon when closed', function() {
+						expect(element._computeNormalizedRatioVector(picturesInput)).to.be.eql([1, 1, 2, 1.4, 1]);
+					});
+
+					test('shows open toggle icon when closed', function() {
+						expect(element._computeNormalizedRatioVector([])).to.be.eql([]);
+					});
+				});
+			});
+		</script>
+
+	</body>
+</html>

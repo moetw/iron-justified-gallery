@@ -1,0 +1,49 @@
+<html>
+	<head>
+		<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+		<link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+		<link rel="import" href="../../iron-icons/iron-icons.html">
+		<link rel="import" href="../iron-justified-gallery.html">
+	</head>
+
+	<body>
+		<demo-snippet>
+			<template is="dom-bind">
+				<iron-justified-gallery id="gallery">
+				</iron-justified-gallery>
+
+				<script>
+					const array = [{
+									    "width": 500,
+									    "url": "https://cdn.evbuc.com/eventlogos/3219606/malemodel.jpg",
+									    "height": 282
+									},
+									{
+									    "width": 500,
+									    "url": "https://s-media-cache-ak0.pinimg.com/736x/08/eb/93/08eb93645e048fca067ef18f18f23324.jpg",
+									    "height": 282
+									},
+									{
+									    "width": 1000,
+									    "url": "https://s-media-cache-ak0.pinimg.com/originals/76/2a/e8/762ae8d52b5edf7f3aca0cd2576eb348.jpg",
+									    "height": 282
+									},
+									{
+									    "width": 700,
+									    "url": "https://i.mdel.net/newfaces/i/2015/01/motw_matthewnoszka_01.png",
+									    "height": 282
+									},
+									{
+									    "width": 500,
+									    "url": "https://qph.ec.quoracdn.net/main-qimg-272df88b27e1bc5cb18f00a7b8de6011-c?convert_to_webp=true",
+									    "height": 282
+								  }];
+
+					document.getElementById('gallery').galleryWidth = window.innerWidth - 70;
+					document.getElementById('gallery').pictures = array;
+				</script>
+			</template>
+		</demo-snippet>
+	</body>
+</html>

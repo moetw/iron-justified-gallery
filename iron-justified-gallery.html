@@ -1,0 +1,124 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../collaborne-login/collaborne-request-behavior.html">
+
+<script type="text/javascript" src="../justified-layout/index.js"></script>
+
+<!--
+A gallery for pictures using flickr justified-layout.
+
+### Example
+
+```html
+<iron-justified-gallery pictures="[[array]]" gallery-width="500" row-height="220">
+</iron-justified-gallery>
+```
+
+@demo demo/index.html
+-->
+<dom-module id="iron-justified-gallery">
+
+	<template>
+
+		<style>
+			#frameHolder {
+				position: relative;
+			}
+		</style>
+
+		<div id="frameHolder"></div>
+
+	</template>
+</dom-module>
+
+<script>
+
+(function() {
+
+	Polymer({
+		is: 'iron-justified-gallery',
+		properties: {
+			/**
+			 * Input of pictures for the galery
+			 */
+			pictures: {
+				type: Array,
+				observer: '_onPicturesChanged',
+				value: []
+			},
+			/**
+			 * Width of the whole gallery
+			 *
+			 *
+			 */
+			galleryWidth: Number,
+			/**
+			 * Height of a single row in the gallery
+			 */
+			rowHeight: {
+				type: Number,
+				value: 200
+			}
+
+		},
+
+		behaviors: [
+			Collaborne.RequestBehavior
+		],
+
+		// Private methods
+		/**
+		 * On pictures changed recalculates the gallery
+		 */
+		_onPicturesChanged: function(pictures) {
+			var galeryParameters = {
+				containerWidth: this.galleryWidth ? this.galleryWidth : window.innerWidth,
+				targetRowHeight: this.rowHeight,
+				targetRowHeightTolerance: 0.25,
+			};
+			//generates the correct dimensions and attaches them to the DOM
+			this._generatePictureDimensions(
+				this._computeNormalizedRatioVector(pictures),
+				'frameHolder',
+				galeryParameters,
+				pictures
+			);
+		},
+		/**
+		 * Generates the boxes that are going to hold the pictures
+		 *
+		 * input are the aspect ratios (http://code.flickr.net/2016/04/05/our-justified-layout-goes-open-source/)
+		 * container is the place where the frames will be attached
+		 * config is the desired configurations (if any)
+		 */
+		_generatePictureDimensions: function(input, container, config, images) {
+			const justifiedLayout = require('justified-layout');
+			const geometry = justifiedLayout(input, config);
+			const frames = geometry.boxes.map(box => {
+				const absoluteUrl = this.toAbsoluteUrl(images[geometry.boxes.indexOf(box)].url);
+				const absoluteUrlPreview = this.toAbsoluteUrl(images[geometry.boxes.indexOf(box)].url);
+				return  `<div class="box" href="${absoluteUrl}" style="background-size: cover!important; background: url(${absoluteUrlPreview}); width: ${box.width}px; height: ${box.height}px; top: ${box.top}px; left: ${box.left}px; position: absolute;"></div>`;
+			}).join('');
+
+			this.$[container].innerHTML = frames;
+			this.$[container].style.height = geometry.containerHeight + "px";
+			this.$[container].style.width = config.containerWidth + "px";
+		},
+		/**
+		 * Using the image sizes computes the normalized vector of all images attached. the
+		 * vector is normalized by minimum value
+		 */
+		_computeNormalizedRatioVector: function(pictures) {
+			const ratioVector = pictures.map(picture => {
+					return picture.width;
+			});
+			const minimum = Math.min.apply(Math, ratioVector);
+
+			return normalizedRatioVector = ratioVector.map(vetorCell => {
+				return vetorCell / minimum;
+			});
+		},
+	});
+
+})();
+
+</script>
