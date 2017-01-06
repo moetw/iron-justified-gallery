@@ -3,7 +3,7 @@
   "authors": [
     "collaborne"
   ],
-  "description": "TODO (Polymer 1.x)",
+  "description": "A gallery for pictures using flickr justified-layout. (Polymer 1.x)",
   "main": "iron-justified-gallery.html",
   "keywords": [
     "web-components",
@@ -20,7 +20,6 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.0.0",
-	"collaborne-login": "Collaborne/collaborne-login#^1.17.8",
     "justified-layout": "./node_modules/justified-layout/dist/justified-layout.js"
   },
   "devDependencies": {
