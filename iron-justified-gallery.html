@@ -88,7 +88,7 @@ A gallery for pictures using flickr justified-layout.
 			const geometry = justifiedLayout(input, config);
 
 			const frames = geometry.boxes.map(box => {
-				const url = this.toAbsoluteUrl(images[geometry.boxes.indexOf(box)].url);
+				const url = images[geometry.boxes.indexOf(box)].url;
 				return  `<div class="box" style="background-size: cover!important; background: url(${url}); width: ${box.width}px; height: ${box.height}px; top: ${box.top}px; left: ${box.left}px; position: absolute;"></div>`;
 			}).join('');
 
@@ -104,7 +104,7 @@ A gallery for pictures using flickr justified-layout.
 			const ratioVector = pictures.map(picture => {
 					return picture.width;
 			});
-			
+
 			const minimum = Math.min.apply(Math, ratioVector);
 
 			return normalizedRatioVector = ratioVector.map(vetorCell => {
