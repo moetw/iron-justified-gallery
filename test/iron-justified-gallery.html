@@ -54,11 +54,11 @@
 						element = fixture('TrivialElement');
 					});
 
-					test('shows open toggle icon when closed', function() {
+					test('compute normalized vector of picture widths', function() {
 						expect(element._computeNormalizedRatioVector(picturesInput)).to.be.eql([1, 1, 2, 1.4, 1]);
 					});
 
-					test('shows open toggle icon when closed', function() {
+					test('if there are no pictures return empty vector', function() {
 						expect(element._computeNormalizedRatioVector([])).to.be.eql([]);
 					});
 				});
