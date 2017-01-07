@@ -1,12 +1,15 @@
 {
   "name": "iron-justified-gallery",
+  "description": "Polymer element that shows a pretty formatted gallery (using the Flickr justified-layout library)",
   "keywords": [
     "gallery",
     "polymer"
   ],
+  "files": [
+    "iron-justified-gallery.html"
+  ],
   "scripts": {
     "postinstall": "bower install",
-    "prepublish": "gulp",
     "pretest": "polylint",
     "test": "wct"
   },
@@ -18,7 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "justified-layout": "^2.1.0"
-},
+  },
   "devDependencies": {
     "bower": "^1.7.7",
     "gulp": "^3.9.0",
