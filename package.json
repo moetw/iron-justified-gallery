@@ -18,7 +18,7 @@
     "url": "https://github.com/Collaborne/iron-justified-gallery.git"
   },
   "author": "Collaborne <info@collaborne.com>",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
     "justified-layout": "^2.1.0"
   },
