@@ -9,9 +9,11 @@ npm install iron-justified-gallery --save
 
 ## Usage
 
+Supported options:
 
-
-The element works with an array of objects.
+| Option            | Description                                             |
+| ----------------- | ------------------------------------------------------- |
+| **pictures**      | Source of pictures that will be rendered in the gallery
 
 ```javascript
 
@@ -20,11 +22,18 @@ const array = [{
   "url": "{{URL}}"
 }];
 ```
-
-Supported options:
-
-| Option            | Description                                             |
-| ----------------- | ------------------------------------------------------- |
-| **pictures**      | Source of pictures that will be rendered in the gallery |
+|
 | **galleryWidth**  | Width that the gallery will take                        |
 | **rowHeight**     | Height of a single row in the gallery                   |
+
+## Example
+
+To use the element in HTML:
+
+```html
+<iron-justified-gallery
+  pictures="[[pictures]]"
+  gallery-width="500"
+  row-height="150">
+</iron-justified-gallery>
+```
