@@ -9,14 +9,16 @@ npm install iron-justified-gallery --save
 
 ## Usage
 
+
+
 The element works with an array of objects.
 
 ```javascript
 
 const array = [{
-                "width": 500,
-                "url": "{{URL}}"
-							}];
+  "width": 500,
+  "url": "{{URL}}"
+}];
 ```
 
 Supported options:
