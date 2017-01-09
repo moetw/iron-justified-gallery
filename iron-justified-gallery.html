@@ -61,6 +61,8 @@ A gallery for pictures using flickr justified-layout.
 		// Private methods
 		/**
 		 * On pictures changed recalculates the gallery
+		 *
+		 * @param pictures array of objects with the picture url and picture widht
 		 */
 		_onPicturesChanged: function(pictures) {
 			var galeryParameters = {
@@ -68,9 +70,15 @@ A gallery for pictures using flickr justified-layout.
 				targetRowHeight: this.rowHeight,
 				targetRowHeightTolerance: 0.25,
 			};
+
+			// extract picture widths
+			const ratioVector = pictures.map(picture => {
+					return picture.width;
+			});
+
 			// generates the correct dimensions and attaches them to the DOM
 			this._generatePictureDimensions(
-				this._computeNormalizedRatioVector(pictures),
+				this._computeNormalizedRatioVector(ratioVector),
 				'frameHolder',
 				galeryParameters,
 				pictures
@@ -79,9 +87,10 @@ A gallery for pictures using flickr justified-layout.
 		/**
 		 * Generates the boxes that are going to hold the pictures
 		 *
-		 * input are the aspect ratios (http://code.flickr.net/2016/04/05/our-justified-layout-goes-open-source/)
-		 * container is the place where the frames will be attached
-		 * config is the desired configurations (if any)
+		 * @param input are the aspect ratios (http://code.flickr.net/2016/04/05/our-justified-layout-goes-open-source/)
+		 * @param container is the place where the frames will be attached, for example id parameter of a div
+		 * @param config is the desired configurations of the gallery
+		 * @param images is the array of pictures that will be rendered
 		 */
 		_generatePictureDimensions: function(input, container, config, images) {
 			const justifiedLayout = require('justified-layout');
@@ -99,12 +108,10 @@ A gallery for pictures using flickr justified-layout.
 		/**
 		 * Using the image sizes computes the normalized vector of all images attached. the
 		 * vector is normalized by minimum value
+		 *
+		 * @param ratioVector an array of all pictures widths
 		 */
-		_computeNormalizedRatioVector: function(pictures) {
-			const ratioVector = pictures.map(picture => {
-					return picture.width;
-			});
-
+		_computeNormalizedRatioVector: function(ratioVector) {
 			const minimum = Math.min.apply(Math, ratioVector);
 
 			return normalizedRatioVector = ratioVector.map(vetorCell => {
