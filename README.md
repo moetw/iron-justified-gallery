@@ -13,18 +13,19 @@ Supported options:
 
 | Option            | Description                                             |
 | ----------------- | ------------------------------------------------------- |
-| **pictures**      | Source of pictures that will be rendered in the gallery
-
-```javascript
-
-const array = [{
-  "width": 500,
-  "url": "{{URL}}"
-}];
-```
-|
+| **pictures**      | Source of pictures that will be rendered in the gallery |
 | **galleryWidth**  | Width that the gallery will take                        |
 | **rowHeight**     | Height of a single row in the gallery                   |
+
+The pictures need to be a JavaScript array with absolute URLs:
+
+```javascript
+const array = [
+  { url: "http://www.server.com/image1.png", width: 500 },
+  { url: "http://www.server.com/image2.png", width: 500 },
+  { url: "http://www.server.com/image3.png", width: 500 }
+];
+```
 
 ## Example
 
