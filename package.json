@@ -1,6 +1,6 @@
 {
   "name": "iron-justified-gallery",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Polymer element that shows a pretty formatted gallery (using the Flickr justified-layout library)",
   "keywords": [
     "gallery",
