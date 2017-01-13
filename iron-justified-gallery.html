@@ -98,7 +98,7 @@ A gallery for pictures using flickr justified-layout.
 
 			const frames = geometry.boxes.map(box => {
 				const url = images[geometry.boxes.indexOf(box)].url;
-				return  `<div style="background-size: cover!important; background-position: 50% 50%; background: url(${url}); width: ${box.width}px; height: ${box.height}px; top: ${box.top}px; left: ${box.left}px; position: absolute;"></div>`;
+				return  `<div style="background-size: cover!important; background-position: center center; background-image: url(${url}); width: ${box.width}px; height: ${box.height}px; top: ${box.top}px; left: ${box.left}px; position: absolute;"></div>`;
 			}).join('');
 
 			this.$[container].innerHTML = frames;
