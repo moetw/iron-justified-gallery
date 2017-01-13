@@ -24,7 +24,7 @@ A gallery for pictures using flickr justified-layout.
 			}
 		</style>
 
-		<div id="frameHolder"></div>
+		<div on-tap="_tapped" id="frameHolder"></div>
 
 	</template>
 </dom-module>
@@ -98,12 +98,20 @@ A gallery for pictures using flickr justified-layout.
 
 			const frames = geometry.boxes.map(box => {
 				const url = images[geometry.boxes.indexOf(box)].url;
-				return  `<div class="box" style="background-size: cover!important; background-position: 50% 50%; background: url(${url}); width: ${box.width}px; height: ${box.height}px; top: ${box.top}px; left: ${box.left}px; position: absolute;"></div>`;
+				return  `<div style="background-size: cover!important; background-position: 50% 50%; background: url(${url}); width: ${box.width}px; height: ${box.height}px; top: ${box.top}px; left: ${box.left}px; position: absolute;"></div>`;
 			}).join('');
 
 			this.$[container].innerHTML = frames;
 			this.$[container].style.height = geometry.containerHeight + "px";
 			this.$[container].style.width = config.containerWidth + "px";
+		},
+		_tapped: function(e) {
+			// this type of selection is required since the type of the image might vary
+			const urlWithBracket = e.target.outerHTML.match('http.*\\);')[0];
+			// get rid of the last two chars
+			const url = urlWithBracket.substring(0,urlWithBracket.length - 2);
+			e.preventDefault();
+			window.open(url);
 		},
 		/**
 		 * Using the image sizes computes the normalized vector of all images attached. the
