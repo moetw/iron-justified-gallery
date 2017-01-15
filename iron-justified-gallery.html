@@ -3,12 +3,12 @@
 <script type="text/javascript" src="../justified-layout/index.js"></script>
 
 <!--
-A gallery for pictures using flickr justified-layout.
+A gallery for images using flickr justified-layout.
 
 ### Example
 
 ```html
-<iron-justified-gallery pictures="[[array]]" gallery-width="500" row-height="220">
+<iron-justified-gallery images="[[array]]" gallery-width="500" row-height="220">
 </iron-justified-gallery>
 ```
 
@@ -24,7 +24,7 @@ A gallery for pictures using flickr justified-layout.
 			}
 		</style>
 
-		<div on-tap="_tapped" id="frameHolder"></div>
+		<div id="frameHolder"></div>
 
 	</template>
 </dom-module>
@@ -32,20 +32,22 @@ A gallery for pictures using flickr justified-layout.
 <script>
 
 (function() {
+	const justifiedLayout = require('justified-layout');
 
 	Polymer({
 		is: 'iron-justified-gallery',
 		properties: {
 			/**
-			 * Input of pictures for the galery
+			 * Input of images for the galery
 			 */
-			pictures: {
+			images: {
 				type: Array,
-				observer: '_onPicturesChanged',
+				observer: '_onImagesChanged',
 				value: []
 			},
 			/**
 			 * Width of the whole gallery
+			 * This value defaults to width of the window.
 			 */
 			galleryWidth: Number,
 			/**
@@ -58,73 +60,73 @@ A gallery for pictures using flickr justified-layout.
 
 		},
 
+		listeners: {
+			'tap': '_onTap'
+		},
+
 		// Private methods
 		/**
-		 * On pictures changed recalculates the gallery
+		 * On images changed recalculates the gallery
 		 *
-		 * @param pictures array of objects with the picture url and picture widht
+		 * @param images array of objects with the image url and image widht
 		 */
-		_onPicturesChanged: function(pictures) {
-			var galeryParameters = {
+		_onImagesChanged: function(images) {
+			const galleryParameters = {
 				containerWidth: this.galleryWidth ? this.galleryWidth : window.innerWidth,
-				targetRowHeight: this.rowHeight,
-				targetRowHeightTolerance: 0.25,
+				targetRowHeight: this.rowHeight
 			};
 
-			// extract picture widths
-			const ratioVector = pictures.map(picture => {
-				return picture.width;
-			});
-
 			// generates the correct dimensions and attaches them to the DOM
-			this._generatePictureDimensions(
-				this._computeNormalizedRatioVector(ratioVector),
+			this._renderImages(
 				'frameHolder',
-				galeryParameters,
-				pictures
+				galleryParameters,
+				images
 			);
 		},
 		/**
-		 * Generates the boxes that are going to hold the pictures
+		 * Generates the elements that are going to hold the images with the right positioning and dimensions.
+		 * Attaches the elements to the DOM.
 		 *
-		 * @param input are the aspect ratios (http://code.flickr.net/2016/04/05/our-justified-layout-goes-open-source/)
 		 * @param container is the place where the frames will be attached, for example id parameter of a div
 		 * @param config is the desired configurations of the gallery
-		 * @param images is the array of pictures that will be rendered
+		 * @param images is the array of images that will be rendered
 		 */
-		_generatePictureDimensions: function(input, container, config, images) {
-			const justifiedLayout = require('justified-layout');
-			const geometry = justifiedLayout(input, config);
+		_renderImages: function(container, config, images) {
+			// extract image widths
+			const arrayOfWidths = images.map(image => image.width);
+			const normalizedVector = this._computeNormalizedArrayOfWidths(arrayOfWidths);
+			const geometry = justifiedLayout(normalizedVector, config);
+			let elementsToBeAttached = '';
 
-			const frames = geometry.boxes.map(box => {
-				const url = images[geometry.boxes.indexOf(box)].url;
-				return  `<div style="background-size: cover!important; background-position: center center; background-image: url(${url}); width: ${box.width}px; height: ${box.height}px; top: ${box.top}px; left: ${box.left}px; position: absolute;"></div>`;
-			}).join('');
+			for (var i = 0; i < images.length; i++) {
+				const url = images[i].url;
+				const box = geometry.boxes[i];
+				elementsToBeAttached += `<div index="${i}" ; style="background-size: cover; background-position: center center; background-image: url(${url}); width: ${box.width}px; height: ${box.height}px; top: ${box.top}px; left: ${box.left}px; position: absolute;"></div>`;
+			}
 
-			this.$[container].innerHTML = frames;
+			this.$[container].innerHTML = elementsToBeAttached;
 			this.$[container].style.height = geometry.containerHeight + "px";
 			this.$[container].style.width = config.containerWidth + "px";
 		},
-		_tapped: function(e) {
-			// this type of selection is required since the type of the image might vary
-			const urlWithBracket = e.target.outerHTML.match('http.*\\);')[0];
-			// get rid of the last two chars
-			const url = urlWithBracket.substring(0,urlWithBracket.length - 2);
-			e.preventDefault();
-			window.open(url);
+		/**
+		 * Handles the tap on an image.
+		 *
+		 * @fires 'tap-image' with an image that was tapped as a detail
+		 */
+		_onTap: function(e) {
+			// find the index of the image that was tapped
+			const indexOfTappedImage = e.target.outerHTML.match(/\d+/);
+			this.fire('tap-image', this.images[indexOfTappedImage]);
 		},
 		/**
-		 * Using the image sizes computes the normalized vector of all images attached. the
-		 * vector is normalized by minimum value
+		 * Computes the normalized vector of all attached images. The
+		 * vector is normalized by minimum value.
 		 *
-		 * @param ratioVector an array of all pictures widths
+		 * @param arrayOfWidths an array of all images widths
 		 */
-		_computeNormalizedRatioVector: function(ratioVector) {
-			const minimum = Math.min.apply(Math, ratioVector);
-
-			return normalizedRatioVector = ratioVector.map(vetorCell => {
-				return vetorCell / minimum;
-			});
+		_computeNormalizedArrayOfWidths: function(arrayOfWidths) {
+			const minimum = Math.min.apply(Math, arrayOfWidths);
+			return arrayOfWidths.map(vetorCell => vetorCell / minimum);
 		},
 	});
 
