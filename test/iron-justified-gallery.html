@@ -54,11 +54,11 @@
 						const ratioVector = picturesInput.map(picture => {
 							return picture.width;
 						});
-						expect(element._computeNormalizedRatioVector(ratioVector)).to.be.eql([1, 1, 2, 1.4, 1]);
+						expect(element._computeNormalizedArrayOfWidths(ratioVector)).to.be.eql([1, 1, 2, 1.4, 1]);
 					});
 
 					test('if there are no pictures return empty vector', function() {
-						expect(element._computeNormalizedRatioVector([])).to.be.eql([]);
+						expect(element._computeNormalizedArrayOfWidths([])).to.be.eql([]);
 					});
 				});
 			});
