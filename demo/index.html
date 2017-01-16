@@ -10,7 +10,7 @@
 	<body>
 		<demo-snippet>
 			<template is="dom-bind">
-				<iron-justified-gallery id="gallery">
+				<iron-justified-gallery id="gallery" on-tap-image="onTapImage">
 				</iron-justified-gallery>
 
 				<script>
@@ -36,6 +36,12 @@
 				}];
 
 					document.getElementById('gallery').images = array;
+
+					var scope = document.querySelector('template[is=dom-bind]');
+					// Shows how to handle tap on an image
+					scope.onTapImage = function(e) {
+						alert('Image url: ' + e.detail.url);
+					};
 				</script>
 			</template>
 		</demo-snippet>
