@@ -47,7 +47,7 @@ A gallery for images using flickr justified-layout.
 
 			/**
 			 * Width of the whole gallery
-			 * This value defaults to width of the window.
+			 * This value defaults to the width of the element.
 			 */
 			galleryWidth: Number,
 
@@ -68,11 +68,11 @@ A gallery for images using flickr justified-layout.
 		/**
 		 * On images changed recalculates the gallery
 		 *
-		 * @param images array of objects with the image url and image widht
+		 * @param images array of objects with the image url and image width
 		 */
 		_onImagesChanged: function(images) {
 			const galleryParameters = {
-				containerWidth: this.galleryWidth || window.innerWidth,
+				containerWidth: this.galleryWidth ? this.galleryWidth : this.offsetWidth,
 				targetRowHeight: this.rowHeight
 			};
 
@@ -106,7 +106,6 @@ A gallery for images using flickr justified-layout.
 			// attach the elements and set the dimensions of the gallery
 			this.innerHTML = elementsToBeAttached;
 			this.style.height = geometry.containerHeight + "px";
-			this.style.width = config.galleryWidth + "px";
 		},
 
 		/**
