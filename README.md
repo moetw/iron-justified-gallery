@@ -13,11 +13,11 @@ Supported options:
 
 | Option            | Description                                             |
 | ----------------- | ------------------------------------------------------- |
-| **pictures**      | Source of pictures that will be rendered in the gallery |
+| **images**        | Source of images that will be rendered in the gallery   |
 | **galleryWidth**  | Width that the gallery will take                        |
 | **rowHeight**     | Height of a single row in the gallery                   |
 
-The pictures need to be a JavaScript array with absolute URLs:
+The images need to be a JavaScript array with absolute URLs:
 
 ```javascript
 const array = [
@@ -33,7 +33,7 @@ To use the element in HTML:
 
 ```html
 <iron-justified-gallery
-  pictures="[[pictures]]"
+  images="[[images]]"
   gallery-width="500"
   row-height="150">
 </iron-justified-gallery>
