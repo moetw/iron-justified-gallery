@@ -71,13 +71,12 @@ A gallery for images using flickr justified-layout.
 		 */
 		_onImagesChanged: function(images) {
 			const galleryParameters = {
-				containerWidth: this.galleryWidth ? this.galleryWidth : window.innerWidth,
+				galleryWidth: this.galleryWidth ? this.galleryWidth : window.innerWidth,
 				targetRowHeight: this.rowHeight
 			};
 
 			// generates the correct dimensions and attaches them to the DOM
 			this._renderImages(
-				'frameHolder',
 				galleryParameters,
 				images
 			);
@@ -86,11 +85,10 @@ A gallery for images using flickr justified-layout.
 		 * Generates the elements that are going to hold the images with the right positioning and dimensions.
 		 * Attaches the elements to the DOM.
 		 *
-		 * @param container is the place where the frames will be attached, for example id parameter of a div
 		 * @param config is the desired configurations of the gallery
 		 * @param images is the array of images that will be rendered
 		 */
-		_renderImages: function(container, config, images) {
+		_renderImages: function(config, images) {
 			// extract image widths
 			const arrayOfWidths = images.map(image => image.width);
 			const normalizedVector = this._computeNormalizedArrayOfWidths(arrayOfWidths);
@@ -106,7 +104,7 @@ A gallery for images using flickr justified-layout.
 			// attach the elements and set the dimensions of the gallery
 			this.innerHTML = elementsToBeAttached;
 			this.style.height = geometry.containerHeight + "px";
-			this.style.width = config.containerWidth + "px";
+			this.style.width = config.galleryWidth + "px";
 		},
 		/**
 		 * Handles the tap on an image.
