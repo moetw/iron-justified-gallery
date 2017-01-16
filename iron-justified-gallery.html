@@ -19,12 +19,11 @@ A gallery for images using flickr justified-layout.
 	<template>
 
 		<style>
-			#frameHolder {
+			:host {
 				position: relative;
+				display: block;
 			}
 		</style>
-
-		<div id="frameHolder"></div>
 
 	</template>
 </dom-module>
@@ -104,9 +103,10 @@ A gallery for images using flickr justified-layout.
 				elementsToBeAttached += `<div index="${i}" ; style="background-size: cover; background-position: center center; background-image: url(${url}); width: ${box.width}px; height: ${box.height}px; top: ${box.top}px; left: ${box.left}px; position: absolute;"></div>`;
 			}
 
-			this.$[container].innerHTML = elementsToBeAttached;
-			this.$[container].style.height = geometry.containerHeight + "px";
-			this.$[container].style.width = config.containerWidth + "px";
+			// attach the elements and set the dimensions of the gallery
+			this.innerHTML = elementsToBeAttached;
+			this.style.height = geometry.containerHeight + "px";
+			this.style.width = config.containerWidth + "px";
 		},
 		/**
 		 * Handles the tap on an image.
