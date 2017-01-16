@@ -95,8 +95,8 @@ A gallery for images using flickr justified-layout.
 			const arrayOfWidths = images.map(image => image.width);
 			const normalizedVector = this._computeNormalizedArrayOfWidths(arrayOfWidths);
 			const geometry = justifiedLayout(normalizedVector, config);
-			let elementsToBeAttached = '';
 
+			let elementsToBeAttached = '';
 			for (let i = 0; i < images.length; i++) {
 				const url = images[i].url;
 				const box = geometry.boxes[i];
