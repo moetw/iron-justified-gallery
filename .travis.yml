@@ -17,7 +17,6 @@ before_script:
 - $(npm bin)/bower install
 - $(npm bin)/polylint
 script:
-- xvfb-run $(npm bin)/wct
 - xvfb-run npm test
 after_success: '[ ${TRAVIS_PULL_REQUEST} = "false" ] && [ ${TRAVIS_BRANCH} = "master" ] && $(npm bin)/bower install -s https://${GH_TOKEN}@github.com/Collaborne/collaborne-build-tools.git && bower_components/collaborne-build-tools/gpages_build.sh Collaborne info@collaborne.com'
 env:
