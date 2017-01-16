@@ -44,11 +44,13 @@ A gallery for images using flickr justified-layout.
 				observer: '_onImagesChanged',
 				value: []
 			},
+
 			/**
 			 * Width of the whole gallery
 			 * This value defaults to width of the window.
 			 */
 			galleryWidth: Number,
+
 			/**
 			 * Height of a single row in the gallery
 			 */
@@ -56,7 +58,6 @@ A gallery for images using flickr justified-layout.
 				type: Number,
 				value: 200
 			}
-
 		},
 
 		listeners: {
@@ -81,6 +82,7 @@ A gallery for images using flickr justified-layout.
 				images
 			);
 		},
+
 		/**
 		 * Generates the elements that are going to hold the images with the right positioning and dimensions.
 		 * Attaches the elements to the DOM.
@@ -106,6 +108,7 @@ A gallery for images using flickr justified-layout.
 			this.style.height = geometry.containerHeight + "px";
 			this.style.width = config.galleryWidth + "px";
 		},
+
 		/**
 		 * Handles the tap on an image.
 		 *
@@ -116,6 +119,7 @@ A gallery for images using flickr justified-layout.
 			const indexOfTappedImage = e.target.outerHTML.match(/\d+/);
 			this.fire('tap-image', this.images[indexOfTappedImage]);
 		},
+
 		/**
 		 * Computes the normalized vector of all attached images. The
 		 * vector is normalized by minimum value.
