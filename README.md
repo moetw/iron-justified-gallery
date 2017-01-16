@@ -1,4 +1,4 @@
-# iron-justified-gallery
+# iron-justified-gallery [![Build Status](https://travis-ci.org/Collaborne/iron-justified-gallery.svg?branch=master)](https://travis-ci.org/Collaborne/iron-justified-gallery)
 Polymer element that shows a pretty formatted gallery (using the Flickr justified-layout library)
 
 ## Install
