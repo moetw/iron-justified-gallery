@@ -72,7 +72,7 @@ A gallery for images using flickr justified-layout.
 		 */
 		_onImagesChanged: function(images) {
 			const galleryParameters = {
-				containerWidth: this.galleryWidth ? this.galleryWidth : this.offsetWidth,
+				containerWidth: this.galleryWidth || this.offsetWidth,
 				targetRowHeight: this.rowHeight
 			};
 
