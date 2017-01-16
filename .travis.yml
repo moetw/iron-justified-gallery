@@ -1,19 +1,20 @@
 dist: trusty
 sudo: false
 group: beta
-
 language: node_js
 node_js:
 - node
 addons:
-  firefox: '49.0.2'
+  firefox: 49.0.2
 cache:
   directories:
   - node_modules
   - "$HOME/.cache/bower"
 before_install:
-- "if [ -d node_modules ] && [ x$(cat node_modules/.last-node-version 2>/dev/null) != x$(node -e 'console.log(process.version)') ]; then npm rebuild && node -e 'console.log(process.version)' > node_modules/.last-node-version; fi"
+- if [ -d node_modules ] && [ x$(cat node_modules/.last-node-version 2>/dev/null)
+  != x$(node -e 'console.log(process.version)') ]; then npm rebuild && node -e 'console.log(process.version)'
+  > node_modules/.last-node-version; fi
 script:
 - xvfb-run npm test
 env:
-  secure: ASR7aibMWAcEzSAUE44bdXjEnmxz3HRhrTX7wIE0PWPWnMo6DXvRKS27syYg9Es/Dh1l/7xW3047Mg52p/pxJeVEAHRbfD7pKJBftDAUaJjuWfUjFcv7Vz2PNsxWpUnHHzuVO3A2zrD4gF+vrBqTsOMlQLfpy8qCGiMnehrhyYxT8rVkduuJz33Z36HSY2Noqtidx8axpufxShjjdIqqusVH5Jxdgmal8i1qdzMS+MEaij49cNz4drvtfsnARmt/6W60qtQWW18U2Eou0NmJy+7vwIzo0xjhUgjl8iYrPUvKz6kRQip15h060GafxmSEWff8uXROeTXCrxBh9bYYl4TtCL6sepAG2vjvTWwaQ3TfCAhIYFB//oSPf+6NP3E71dAbSf3R840oS3FGT7VxWo7gqnWxNlFr6tAMIbVmP4vSNasR4OvszL79O13cnwoh9+8B370nL5Zsb2ezKMovEx9z0XzoByfpgH6clH4hjz0ZmTQRcmfcdBTZbQ9OaoJ+36cqhyH3EjdgeQZ8Ac/ZVpJ89qkqUZOd86r8QB4BOzSSSzCx7s38QfMmMlwTsQjZXR6RI7C/f2I671AKvxsKL/O4xdSczG4fJkyp7bKHOWcM6Z+1Um0tGwIJNxbRyo8QQ+f6SduhuyuVQR+EzMDeKTPxR4fbw9rtrR5hdgMlr9w=
+  secure: BFMxh+KFCo+ED4FRRn65NNWSKFHBP9j9yCvs7uU1M5xvvTUW53aQ/ffE6uazDnTyQH5gOP0ibvUh08eJ1XRolJ/OAD2WtFFNpowM4E6jmZhpMfhm/M/+QWIiP+FIPdMtj7FKQgusEewbO+gqIGWmjvROKu9o48YXJaaL+7x34SHluEZ4PW5YIbjJNJqqBT6SvIas/S14+dEy0YhP1Amjh2lkvBQKFAAfjgkHvWhfXCRMtSQvfuOfd6CSflMu9vBjvRH/vQKPEDgMxFRyrED06oVe5Kyj1YjCOarzx5e1qBMG7fkwwE68UX/X2GNWeOGLExIOOhAtTnez8X5Kx9CtJwDG1MbKuNAL8tPe17J1RzUi+wlruqhunMyrTHwfjikHhawtdlJcCrOXKGrthJLAaX3KEgshcGGpkQfT/iC8+NIJj+mYzTLipbU1U/Iu88XjtGoRTgU+KR4glO/OxPrt1E3a82Vlq7z5vT7PF5C8hIUylejJLSMFDRQUbz35cUCAiRQcOG7irfykUU5yP6h65y8tnN3k5k7Kun2q271ehWeur88zy2eF8CYSImDT16OleaEbT4Bgjtc/uCV2pxmQQXE3dZJcgCePher3HMPyYt5beEcxjPJPG+jUyypuaBBRBo2n66vwtotn/TK+WrcxtfKMms3myoQzGXboDwrcJcA=
