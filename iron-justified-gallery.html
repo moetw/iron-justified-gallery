@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
 
 <script type="text/javascript" src="../justified-layout/index.js"></script>
 
@@ -60,24 +61,26 @@ A gallery for images using flickr justified-layout.
 			}
 		},
 
+		behaviors: [
+			Polymer.IronResizableBehavior
+		],
+
 		listeners: {
+			'iron-resize': '_onResize',
 			'tap': '_onTap'
 		},
 
+		// Private methods
 		/**
-		 * Render images once the element has been attached to the DOM.
-		 * It has to be called after the element is attached because otherwise,
-		 * the width (this.offsetWidth) of the element would be zero. This way the gallery will
-		 * default to all available space for it (thanks to "display: block" that
-	 	 * implies maximal possible width).
-		 *
-		 * Documentation for when is attached called: https://www.polymer-project.org/1.0/docs/devguide/registering-elements
+		 * Everytime a width dimension of the gallery space changes,
+		 * the gallery needs to be recalculated.
+		 * Function is called every-time the window resizes (and once at the page load,
+	 	 * more details: https://elements.polymer-project.org/elements/iron-resizable-behavior?active=Polymer.IronResizableBehavior)
 		 */
-		attached: function() {
+		_onResize: function() {
 			this._renderImages(this.images, this.galleryWidth, this.rowHeight);
 		},
 
-		// Private methods
 		/**
 		 * Generates the elements that are going to hold the images with the right positioning and dimensions.
 		 * Attaches the elements to the DOM.
