@@ -41,7 +41,7 @@ A gallery for images using flickr justified-layout.
 			 */
 			images: {
 				type: Array,
-				observer: '_onImagesChanged',
+				observer: '_onImageChange',
 				value: []
 			},
 
@@ -64,37 +64,41 @@ A gallery for images using flickr justified-layout.
 			'tap': '_onTap'
 		},
 
-		// Private methods
 		/**
-		 * On images changed recalculates the gallery
+		 * Render images once the element has been attached to the DOM.
+		 * It has to be called after the element is attached because otherwise,
+		 * the width (this.offsetWidth) of the element would be zero. This way the gallery will
+		 * default to all available space for it (thanks to "display: block" that
+	 	 * implies maximal possible width).
 		 *
-		 * @param images array of objects with the image url and image width
+		 * Documentation for when is attached called: https://www.polymer-project.org/1.0/docs/devguide/registering-elements
 		 */
-		_onImagesChanged: function(images) {
-			const galleryParameters = {
-				containerWidth: this.galleryWidth || this.offsetWidth,
-				targetRowHeight: this.rowHeight
-			};
-
-			// generates the correct dimensions and attaches them to the DOM
-			this._renderImages(
-				galleryParameters,
-				images
-			);
+		attached: function() {
+			this._renderImages(this.images, this.galleryWidth, this.rowHeight);
 		},
 
+		// Private methods
 		/**
 		 * Generates the elements that are going to hold the images with the right positioning and dimensions.
 		 * Attaches the elements to the DOM.
 		 *
-		 * @param config is the desired configurations of the gallery
 		 * @param images is the array of images that will be rendered
+		 * @param	galleryWidth the desired width of the gallery (if not set
+		 * 				this defaults to maximal available space for the element)
+		 * @param rowHeight the height of a single row. Either set or defaults
+		 *				to 200px.
 		 */
-		_renderImages: function(config, images) {
+		_renderImages: function(images, galleryWidth, rowHeight) {
+			// set up gallery parameters
+			const galleryParameters = {
+				containerWidth: galleryWidth || this.offsetWidth,
+				targetRowHeight: rowHeight
+			};
+
 			// extract image widths
 			const arrayOfWidths = images.map(image => image.width);
 			const normalizedVector = this._computeNormalizedArrayOfWidths(arrayOfWidths);
-			const geometry = justifiedLayout(normalizedVector, config);
+			const geometry = justifiedLayout(normalizedVector, galleryParameters);
 
 			let elementsToBeAttached = '';
 			for (let i = 0; i < images.length; i++) {
@@ -106,6 +110,13 @@ A gallery for images using flickr justified-layout.
 			// attach the elements and set the dimensions of the gallery
 			this.innerHTML = elementsToBeAttached;
 			this.style.height = geometry.containerHeight + "px";
+		},
+
+		/**
+		 * Function re-renders images if the input has changed
+		 */
+		_onImageChange: function() {
+			this._renderImages(this.images, this.galleryWidth, this.rowHeight);
 		},
 
 		/**
@@ -124,6 +135,7 @@ A gallery for images using flickr justified-layout.
 		 * vector is normalized by minimum value.
 		 *
 		 * @param arrayOfWidths an array of all images widths
+		 * @return array of numbers computed from arrayOfWidths normalized by minimal value
 		 */
 		_computeNormalizedArrayOfWidths: function(arrayOfWidths) {
 			const minimum = Math.min.apply(Math, arrayOfWidths);
