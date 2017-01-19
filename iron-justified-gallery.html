@@ -99,8 +99,7 @@ A gallery for images using flickr justified-layout.
 			};
 
 			// extract image widths
-			const arrayOfWidths = images.map(image => image.width);
-			const normalizedVector = this._computeNormalizedArrayOfWidths(arrayOfWidths);
+			const normalizedVector = this._computeArrayOfRelativeBoxSizes(images);
 			const geometry = justifiedLayout(normalizedVector, galleryParameters);
 
 			let elementsToBeAttached = '';
@@ -134,15 +133,45 @@ A gallery for images using flickr justified-layout.
 		},
 
 		/**
-		 * Computes the normalized vector of all attached images. The
-		 * vector is normalized by minimum value.
+		 * Computes the array of box sizes for all attached images. The
+		 * vector is build from image ratios (width:height) if both values are provided.
+		 * If height is missing the vector is build from widths normalized by
+		 * minimum of all width-values. If both widths and heights are missing the
+		 * result will be an array of ones.
 		 *
-		 * @param arrayOfWidths an array of all images widths
-		 * @return array of numbers computed from arrayOfWidths normalized by minimal value
+		 * For more information about the purpose of this function see:
+		 * https://github.com/flickr/justified-layout
+		 *
+		 * @param images array of all images provided by user
+		 * @return array of box sizes computed from images
 		 */
-		_computeNormalizedArrayOfWidths: function(arrayOfWidths) {
-			const minimum = Math.min.apply(Math, arrayOfWidths);
-			return arrayOfWidths.map(vetorCell => vetorCell / minimum);
+		_computeArrayOfRelativeBoxSizes: function(images) {
+			// case when all widths and heights are present
+			if (this._checkIfImagesHave(images, 'height') && this._checkIfImagesHave(images, 'width')) {
+				return images.map(image => image.width / image.height)
+			// case if all widths are present
+			} else if (this._checkIfImagesHave(images, 'width')) {
+				const arrayOfWidths = images.map(image => image.width);
+				// compute minimum of all widths
+				const minimum = Math.min.apply(Math, arrayOfWidths);
+				return arrayOfWidths.map(vetorCell => vetorCell / minimum);
+			}
+			// case if neither widths nor heights are present
+			return new Array(images.length).fill(1);
+		},
+
+		/**
+		 * Check if all object instances of an array have a certain parameter.
+		 *
+		 * @param images is the array of objects
+		 * @param parameter which existence needs to be verified
+		 *				across the whole array.
+		 * @return True if the parameter is present for all members of the
+		 *				 array and false otherwise.For example, if all objects in the
+		 *				 array have parameter object.foo, than the function will return true.
+		 */
+		_checkIfImagesHave: function(images, parameter) {
+			return images.every(image => Boolean(image[parameter]));
 		},
 	});
 
