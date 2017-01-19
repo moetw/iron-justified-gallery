@@ -166,12 +166,13 @@ A gallery for images using flickr justified-layout.
 		 * @param images is the array of objects
 		 * @param parameter which existence needs to be verified
 		 *				across the whole array.
-		 * @return True if the parameter is present for all members of the
+		 * @return Boolean. True if the parameter is present for all members of the
 		 *				 array and false otherwise.For example, if all objects in the
 		 *				 array have parameter object.foo, than the function will return true.
+		 *				 Note that if the array is empty the return value is false.
 		 */
 		_checkIfImagesHave: function(images, parameter) {
-			return images.every(image => Boolean(image[parameter]));
+			return (images.length > 0) ? images.every(image => Boolean(image[parameter])) : false;
 		},
 	});
 
