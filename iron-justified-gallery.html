@@ -147,10 +147,10 @@ A gallery for images using flickr justified-layout.
 		 */
 		_computeArrayOfRelativeBoxSizes: function(images) {
 			// case when all widths and heights are present
-			if (this._checkIfImagesHave(images, 'height') && this._checkIfImagesHave(images, 'width')) {
+			if (this._checkIfImagesHaveParameter(images, 'height') && this._checkIfImagesHaveParameter(images, 'width')) {
 				return images.map(image => image.width / image.height)
 			// case if all widths are present
-			} else if (this._checkIfImagesHave(images, 'width')) {
+			} else if (this._checkIfImagesHaveParameter(images, 'width')) {
 				const arrayOfWidths = images.map(image => image.width);
 				// compute minimum of all widths
 				const minimum = Math.min.apply(Math, arrayOfWidths);
@@ -171,7 +171,7 @@ A gallery for images using flickr justified-layout.
 		 *				 array have parameter object.foo, than the function will return true.
 		 *				 Note that if the array is empty the return value is false.
 		 */
-		_checkIfImagesHave: function(images, parameter) {
+		_checkIfImagesHaveParameter: function(images, parameter) {
 			return (images.length > 0) ? images.every(image => Boolean(image[parameter])) : false;
 		},
 	});
