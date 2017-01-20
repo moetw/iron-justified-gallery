@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
 
 <script type="text/javascript" src="../justified-layout/index.js"></script>
 
@@ -106,7 +107,12 @@ A gallery for images using flickr justified-layout.
 			for (let i = 0; i < images.length; i++) {
 				const url = images[i].url;
 				const box = geometry.boxes[i];
-				elementsToBeAttached += `<div index="${i}" ; style="background-size: cover; background-position: center center; background-image: url(${url}); width: ${box.width}px; height: ${box.height}px; top: ${box.top}px; left: ${box.left}px; position: absolute;"></div>`;
+				elementsToBeAttached += `<div index="${i}" ; style="background-size: cover; background-position: center center; background-image: url(${url}); width: ${box.width}px; height: ${box.height}px; top: ${box.top}px; left: ${box.left}px; position: absolute;">`;
+				// if there is an icon attached set it in the middle of the image
+				if (images[i].icon) {
+					elementsToBeAttached += `<iron-icon icon="${images[i].icon}" style="width: 64px; height: 64px; color: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></iron-icon>`;
+				}
+				elementsToBeAttached += `</div>`;
 			}
 
 			// attach the elements and set the dimensions of the gallery
@@ -127,8 +133,10 @@ A gallery for images using flickr justified-layout.
 		 * @fires 'tap-image' with an image that was tapped as a detail
 		 */
 		_onTap: function(e) {
+			// if the icon was tapped return the parent element
+			const box = e.target.nodeName === 'IRON-ICON' ? e.target.parentElement : e.target;
 			// find the index of the image that was tapped
-			const indexOfTappedImage = e.target.outerHTML.match(/\d+/);
+			const indexOfTappedImage = box.outerHTML.match(/\d+/);
 			this.fire('tap-image', this.images[indexOfTappedImage]);
 		},
 
