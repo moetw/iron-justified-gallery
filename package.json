@@ -12,7 +12,7 @@
   "scripts": {
     "postinstall": "bower install",
     "pretest": "polylint --no-recursion",
-    "test": "wct"
+    "test": "xvfb-run wct"
   },
   "repository": {
     "type": "git",
