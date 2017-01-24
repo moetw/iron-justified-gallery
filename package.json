@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "postinstall": "bower install",
-    "pretest": "polylint",
+    "pretest": "polylint --no-recursion",
     "test": "wct"
   },
   "repository": {
