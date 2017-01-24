@@ -7,6 +7,7 @@ addons:
 cache:
   directories:
   - node_modules
+  - "$HOME/.cache/bower"
 before_script:
 - npm install web-component-tester bower@1.7.9 wct-local@2.0.8 polylint
 - $(npm bin)/bower install
