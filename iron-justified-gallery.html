@@ -43,7 +43,7 @@ A gallery for images using flickr justified-layout.
 			 */
 			images: {
 				type: Array,
-				observer: '_onImageChange',
+				observer: '_onImagesOrDimensionsChange',
 				value: []
 			},
 
@@ -79,7 +79,7 @@ A gallery for images using flickr justified-layout.
 	 	 * more details: https://elements.polymer-project.org/elements/iron-resizable-behavior?active=Polymer.IronResizableBehavior)
 		 */
 		_onResize: function() {
-			this._renderImages(this.images, this.galleryWidth, this.rowHeight);
+			this._onImagesOrDimensionsChange(this.images);
 		},
 
 		/**
@@ -121,10 +121,30 @@ A gallery for images using flickr justified-layout.
 		},
 
 		/**
-		 * Function re-renders images if the input has changed
+		 * Function re-renders images if the input or dimensions has changed
+		 *
+		 * @param images Array of Objects that hold images that need to be displayed
 		 */
-		_onImageChange: function() {
-			this._renderImages(this.images, this.galleryWidth, this.rowHeight);
+		_onImagesOrDimensionsChange: function(images) {
+			if (images.length > 1 || !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 750)) {
+				this._renderImages(images, this.galleryWidth, this.rowHeight);
+			} else if (images.length === 1) {
+				this._handleSingleImageCaseForSmallScreens(images[0]);
+			}
+		},
+
+		/**
+		 * Handles a case when there is a single image that needs to take all the space on small screen
+		 *
+		 * @param image Object that holds and image that needs to be displayed
+		 */
+		_handleSingleImageCaseForSmallScreens: function(image) {
+			let imageDiv = `<div index="0"; style="background-size: cover; background-color: black; background-position: center center; background-image: url(${image.url}); height: ${image.height || 450}px; display: block;">`;
+			if (image.icon) {
+				imageDiv += `<iron-icon icon="${image.icon}" style="width: 64px; height: 64px; color: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></iron-icon>`;
+			}
+			imageDiv += `</div>`;
+			this.innerHTML = imageDiv;
 		},
 
 		/**
