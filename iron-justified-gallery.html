@@ -59,7 +59,7 @@ A gallery for images using flickr justified-layout.
 			rowHeight: {
 				type: Number,
 				value: 200
-			}
+			},
 		},
 
 		behaviors: [
@@ -99,9 +99,9 @@ A gallery for images using flickr justified-layout.
 				targetRowHeight: rowHeight
 			};
 
-			// extract image widths
+			// computes relative image sizes
 			const normalizedVector = this._computeArrayOfRelativeBoxSizes(images);
-			const geometry = justifiedLayout(normalizedVector, galleryParameters);
+			const geometry = this._computePrettyGeometry(normalizedVector, galleryParameters);
 
 			let elementsToBeAttached = '';
 			for (let i = 0; i < images.length; i++) {
@@ -119,7 +119,61 @@ A gallery for images using flickr justified-layout.
 			this.innerHTML = elementsToBeAttached;
 			this.style.height = geometry.containerHeight + "px";
 		},
+		/**
+		 * Computes the box sizes and the size of the whole gallery. In case
+		 * that there is only one line and that one is not filled the height of the
+		 * gallery will be adjusted to have the row filled. Note that the maximum height
+		 * is half of the window height.
+		 *
+		 * @param normalizedVector Array of relative image sizes
+		 * @param galleryParameters Object that characterizes the generated gallery
+		 * @return Object that holds characteristics of the gallery. Box sizes, height etc.
+		 */
+		_computePrettyGeometry: function(normalizedVector, galleryParameters) {
+			// compute the geometry for justified gallery (https://github.com/flickr/justified-layout)
+			geometry = justifiedLayout(normalizedVector, galleryParameters);
 
+			// save output of function
+			const outputOfFirstRowFilled = this._firstRowIsFilled(geometry.boxes, galleryParameters.containerWidth);
+			// true if the first row is filled false otherwise
+			const firstRowFill = outputOfFirstRowFilled[0];
+			// sum of all widths together
+			const additiveWidthOfBoxes = outputOfFirstRowFilled[1];
+			if (firstRowFill) {
+					return geometry;
+			} else { // if the first row is not filled
+				// compute the height of the row to fill it completely
+				const proportionalHeight = galleryParameters.targetRowHeight * (galleryParameters.containerWidth / additiveWidthOfBoxes)
+				const maxRowHeight = window.innerHeight/2;
+				// use the proportional height if it is smaller than half od the screen
+				galleryParameters.targetRowHeight = proportionalHeight > maxRowHeight ? maxRowHeight : proportionalHeight;
+				return justifiedLayout(normalizedVector, galleryParameters);
+			}
+		},
+		/**
+		 * Checks if all the boxes can fill a single gallery row and computes the
+		 * width of all boxes together.
+		 *
+		 * @param Array of picture box dimensions
+		 * @param Number width for the whole gallery
+		 * @return Array of length 2, where on 1st possition is a Boolean
+		 *				 that shows if the first row is filled or not (true filled
+	 	 * 				 false not filled). The 2nd possition holds the width of all
+		 *				 boxes together including spaces between them.
+		 */
+		_firstRowIsFilled: function(boxes, availableWidth) {
+			// inicializes the all boxes width to the padding between boxes
+			let allBoxesWidth = 10 * (boxes.length - 1);
+			// if there is at least a single box compute the sum of widths
+			if (boxes.length > 0) {
+				allBoxesWidth += boxes.map(box => { return box.width }).reduce((a,b) => { return a + b});
+			}
+			if (allBoxesWidth > availableWidth) {
+				return [true, allBoxesWidth];
+			} else {
+				return [false, allBoxesWidth];
+			}
+		},
 		/**
 		 * Function re-renders images if the input or dimensions has changed
 		 *
