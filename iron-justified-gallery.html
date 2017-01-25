@@ -139,7 +139,10 @@ A gallery for images using flickr justified-layout.
 		 * @param image Object that holds and image that needs to be displayed
 		 */
 		_handleSingleImageCaseForSmallScreens: function(image) {
-			let imageDiv = `<div index="0"; style="background-size: cover; background-color: black; background-position: center center; background-image: url(${image.url}); height: ${image.height || 450}px; display: block;">`;
+			const imageHeight = image.height || 450;
+			// ensure that there is enough space for the picture
+			this.style.height = `${imageHeight}px`;
+			let imageDiv = `<div index="0"; style="background-size: cover; background-color: black; background-position: center center; background-image: url(${image.url}); height: ${imageHeight}px; display: block;">`;
 			if (image.icon) {
 				imageDiv += `<iron-icon icon="${image.icon}" style="width: 64px; height: 64px; color: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></iron-icon>`;
 			}
