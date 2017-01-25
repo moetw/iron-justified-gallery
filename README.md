@@ -40,3 +40,14 @@ To use the element in HTML:
   row-height="150">
 </iron-justified-gallery>
 ```
+
+## Release
+
+Follow these steps to create a new release of the element:
+
+~~~~
+// Bump version number
+npm version patch|minor|major
+// Push version to Github
+git push --tags
+~~~~
