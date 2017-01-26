@@ -10,19 +10,74 @@
 	<body>
 		<demo-snippet>
 			<template is="dom-bind">
-				<iron-justified-gallery id="gallery" on-tap-image="onTapImage">
+				<style is="custom-style">
+					div.note {
+						padding: 10px;
+					}
+				</style>
+				<div class="note">Multiple images in a gallery.</div>
+				<iron-justified-gallery id="galleryMultipleImages" on-tap-image="onTapImage">
+				</iron-justified-gallery>
+
+				<br>
+
+				<div class="note">Tall images that do not take all the width. On smaller screens the images will
+				take all the awailable width.</div>
+				<iron-justified-gallery id="galleryMultipleTallImages" on-tap-image="onTapImage">
+				</iron-justified-gallery>
+
+				<br>
+				<div class="note">A single image, on large screens will be possitioned on the left side,
+				on smaller screens will take all the width.</div>
+				<iron-justified-gallery id="galleryASingleImage" on-tap-image="onTapImage">
 				</iron-justified-gallery>
 
 				<script>
-					const array = [{
+					// testing data
+					const arrayMultipleImages = [{
 						"width": 500,
-						"height": 50,
 						"url": "https://static.pexels.com/photos/248159/pexels-photo-248159.jpeg",
 						"icon": "icons:change-history"
+					},
+					{
+						"width": 600,
+						"url": "https://static.pexels.com/photos/281024/pexels-photo-281024.jpeg"
+					},
+					{
+						"width": 1000,
+						"url": "https://static.pexels.com/photos/166571/pexels-photo-166571.jpeg"
+					},
+					{
+						"width": 400,
+						"url": "https://static.pexels.com/photos/199089/pexels-photo-199089.jpeg"
+					},
+					{
+						"width": 1000,
+						"url": "https://static.pexels.com/photos/244483/pexels-photo-244483.jpeg"
 					}];
 
-					document.getElementById('gallery').images = array;
+					const arrayASingleImage = [{
+						"width": 414,
+						"height": 274,
+						"url": "https://static.pexels.com/photos/2946/dawn-nature-sunset-trees.jpg",
+					}];
 
+					const arrayMultipleTallImages = [{
+						"width": 400,
+						"height": 600,
+						"url": "https://s-media-cache-ak0.pinimg.com/564x/21/58/a6/2158a602ac7f1cf60adeeb1f808e0e57.jpg"
+					},{
+						"width": 564,
+						"height": 1002,
+						"url": "https://s-media-cache-ak0.pinimg.com/564x/46/27/36/46273655b92ffc1eabc95e0f2e7e8150.jpg"
+					}];
+
+					// assign input
+					document.getElementById('galleryMultipleImages').images = arrayMultipleImages;
+					document.getElementById('galleryASingleImage').images = arrayASingleImage;
+					document.getElementById('galleryMultipleTallImages').images = arrayMultipleTallImages;
+
+					// handle image tap
 					var scope = document.querySelector('template[is=dom-bind]');
 					// Shows how to handle tap on an image
 					scope.onTapImage = function(e) {
