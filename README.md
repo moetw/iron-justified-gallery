@@ -1,7 +1,7 @@
 _[Demo and API Docs](http://collaborne.github.io/iron-justified-gallery)_
 
 # iron-justified-gallery [![Build Status](https://travis-ci.org/Collaborne/iron-justified-gallery.svg?branch=master)](https://travis-ci.org/Collaborne/iron-justified-gallery)
-Polymer element that shows a pretty formatted gallery (using the Flickr justified-layout library)
+Polymer element that shows a pretty formatted gallery (using the Flickr justified-layout library).
 
 ## Install
 
@@ -40,6 +40,10 @@ To use the element in HTML:
   row-height="150">
 </iron-justified-gallery>
 ```
+
+## Note
+
+On small devices and small screens (Android, iOS, etc.) the element will fill at least the first row of the gallery (if it is possible). For example if there is a simple picture, the element will force it to take all the width.
 
 ## Release
 
