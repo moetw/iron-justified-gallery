@@ -193,7 +193,13 @@ A gallery for images using flickr justified-layout.
 		 * @param image Object that holds and image that needs to be displayed
 		 */
 		_handleSingleImageCaseForSmallScreens: function(image) {
-			const imageHeight = image.height || 450;
+			// compute the height of the picture if the row is filled completely
+			const proportionalImageHeight = image.height * (this.offsetWidth / image.height);
+			// limit the maximum height of the picture to half of the screen size (to
+			// prevent cases where the picture takes all the space)
+			const maxHeight = window.innerHeight/2;
+			// use the proportional height if possible
+			const imageHeight = (proportionalImageHeight > maxHeight) ? maxHeight : proportionalImageHeight;
 			// ensure that there is enough space for the picture
 			this.style.height = `${imageHeight}px`;
 			let imageDiv = `<div index="0"; style="background-size: cover; background-color: black; background-position: center center; background-image: url(${image.url}); height: ${imageHeight}px; display: block;">`;
