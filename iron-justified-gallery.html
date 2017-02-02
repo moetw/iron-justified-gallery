@@ -92,7 +92,6 @@ A gallery for images using flickr justified-layout.
 		 *				to 200px.
 		 */
 		_renderImages: function(images, galleryWidth, rowHeight) {
-			// set up gallery parameters
 			const galleryParameters = {
 				containerWidth: galleryWidth || this.offsetWidth,
 				targetRowHeight: rowHeight
@@ -155,33 +154,22 @@ A gallery for images using flickr justified-layout.
 		 * @return array of box sizes computed from images
 		 */
 		_computeArrayOfRelativeBoxSizes: function(images) {
-			// case when all widths and heights are present
-			if (this._checkIfImagesHaveParameter(images, 'height') && this._checkIfImagesHaveParameter(images, 'width')) {
-				return images.map(image => image.width / image.height)
-			// case if all widths are present
-			} else if (this._checkIfImagesHaveParameter(images, 'width')) {
-				const arrayOfWidths = images.map(image => image.width);
-				// compute minimum of all widths
-				const minimum = Math.min.apply(Math, arrayOfWidths);
-				return arrayOfWidths.map(vetorCell => vetorCell / minimum);
-			}
-			// case if neither widths nor heights are present
-			return new Array(images.length).fill(1);
-		},
+			// Check if all object instances of an array have width/height parameters
+			const allImagesHaveWidthts = images.every(image => Boolean(image.width));
+			const allImagesHaveHeights = images.every(image => Boolean(image.height));
 
-		/**
-		 * Check if all object instances of an array have a certain parameter.
-		 *
-		 * @param images is the array of objects
-		 * @param parameter which existence needs to be verified
-		 *				across the whole array.
-		 * @return Boolean. True if the parameter is present for all members of the
-		 *				 array and false otherwise.For example, if all objects in the
-		 *				 array have parameter object.foo, than the function will return true.
-		 *				 Note that if the array is empty the return value is false.
-		 */
-		_checkIfImagesHaveParameter: function(images, parameter) {
-			return (images.length > 0) ? images.every(image => Boolean(image[parameter])) : false;
+			if (allImagesHaveHeights && allImagesHaveHeights) {
+				// Calculate aspect ratio if width & height are available for all images
+				return images.map(image => image.width / image.height)
+			} else if (allImagesHaveWidthts) {
+				// Normalize width if all widths are available
+				const widths = images.map(image => image.width);
+				const minWidth = Math.min.apply(Math, widths);
+				return widths.map(width => width / minWidth);
+			} else {
+				// Default to same measure if neither widths nor heights are present
+				return new Array(images.length).fill(1);
+			}
 		},
 	});
 

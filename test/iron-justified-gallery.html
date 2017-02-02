@@ -9,8 +9,8 @@
 		<script src="../../web-component-tester/browser.js"></script>
 		<script src="../../test-fixture/test-fixture-mocha.js"></script>
 
-		<link rel="import" href="../iron-justified-gallery.html">
 		<link rel="import" href="../../test-fixture/test-fixture.html">
+		<link rel="import" href="../iron-justified-gallery.html">
 	</head>
 	<body>
 
@@ -22,80 +22,45 @@
 
 		<script>
 			suite('<iron-justified-gallery>', function() {
-				suite('Gallery computation', function() {
-					var element;
-					var picturesInputWidths = [{
-									    "width": 500,
-									    "url": "https://cdn.evbuc.com/eventlogos/3219606/malemodel.jpg"
-									},
-									{
-									    "width": 500,
-									    "url": "https://s-media-cache-ak0.pinimg.com/736x/08/eb/93/08eb93645e048fca067ef18f18f23324.jpg"
-									},
-									{
-									    "width": 1000,
-									    "url": "https://s-media-cache-ak0.pinimg.com/originals/76/2a/e8/762ae8d52b5edf7f3aca0cd2576eb348.jpg"
-									},
-									{
-									    "width": 700,
-									    "url": "https://i.mdel.net/newfaces/i/2015/01/motw_matthewnoszka_01.png"
-									},
-									{
-									    "width": 500,
-									    "url": "https://qph.ec.quoracdn.net/main-qimg-272df88b27e1bc5cb18f00a7b8de6011-c?convert_to_webp=true"
-								  }];
-					var picturesInputWidthsAndHeights = [{
-									    "width": 500,
-											"height": 1000.999,
-									    "url": "https://cdn.evbuc.com/eventlogos/3219606/malemodel.jpg"
-									},
-									{
-									    "width": 500,
-											"height": 300,
-									    "url": "https://s-media-cache-ak0.pinimg.com/736x/08/eb/93/08eb93645e048fca067ef18f18f23324.jpg"
-									},
-									{
-									    "width": 1000,
-											"height": 500,
-									    "url": "https://s-media-cache-ak0.pinimg.com/originals/76/2a/e8/762ae8d52b5edf7f3aca0cd2576eb348.jpg"
-									},
-									{
-									    "width": 700,
-											"height": 500,
-									    "url": "https://i.mdel.net/newfaces/i/2015/01/motw_matthewnoszka_01.png"
-									},
-									{
-									    "width": 500,
-											"height": 200,
-									    "url": "https://qph.ec.quoracdn.net/main-qimg-272df88b27e1bc5cb18f00a7b8de6011-c?convert_to_webp=true"
-								  }];
-					var onlyURLsInput = [{
-									    "url": "https://cdn.evbuc.com/eventlogos/3219606/malemodel.jpg"
-									},
-									{
-									    "url": "https://s-media-cache-ak0.pinimg.com/736x/08/eb/93/08eb93645e048fca067ef18f18f23324.jpg"
-									},
-									{
-									    "url": "https://s-media-cache-ak0.pinimg.com/originals/76/2a/e8/762ae8d52b5edf7f3aca0cd2576eb348.jpg"
-									},
-									{
-									    "url": "https://i.mdel.net/newfaces/i/2015/01/motw_matthewnoszka_01.png"
-									},
-									{
-									    "url": "https://qph.ec.quoracdn.net/main-qimg-272df88b27e1bc5cb18f00a7b8de6011-c?convert_to_webp=true"
-								  }];
+				suite('vector computation behavior', function() {
+					var let;
 
 					setup(function() {
 						element = fixture('TrivialElement');
 					});
 
-					test('compute array of box sizes', function() {
-						expect(element._computeArrayOfRelativeBoxSizes(picturesInputWidths)).to.be.eql([1, 1, 2, 1.4, 1]);
-						expect(element._computeArrayOfRelativeBoxSizes(picturesInputWidthsAndHeights)).to.be.eql([0.499500998502496, 1.6666666666666667, 2, 1.4, 2.5]);
-						expect(element._computeArrayOfRelativeBoxSizes(onlyURLsInput)).to.be.eql([1, 1, 1, 1, 1]);
+					test('returns aspect ratios if heights and widths are available', function() {
+						const images = [
+							{ "width":  500, "height": 1000, "url": "image1.jpg" },
+							{ "width":  500, "height":  300, "url": "image2.jpg" },
+							{ "width": 1000, "height":  500, "url": "image3.jpg" },
+							{ "width":  700, "height":  500, "url": "image4.jpg" },
+							{ "width":  500, "height":  200, "url": "image5.jpg" }
+						];
+						expect(element._computeArrayOfRelativeBoxSizes(images)).to.be.eql([0.5, 1.6666666666666667, 2, 1.4, 2.5]);
 					});
 
-					test('if there are no pictures return empty vector', function() {
+					test('normalizes widths if no heights are provided', function() {
+						const images = [
+							{ "width":  500, "url": "image1.jpg" },
+							{ "width":  500, "url": "image2.jpg" },
+							{ "width": 1000, "url": "image3.jpg" },
+							{ "width":  700, "url": "image4.jpg" },
+							{ "width":  500, "url": "image5.jpg" },
+						];
+						expect(element._computeArrayOfRelativeBoxSizes(images)).to.be.eql([1, 1, 2, 1.4, 1]);
+					});
+
+					test('returns vector with ones if no height/widths are provided', function() {
+						const images = [
+							{ "url": "image1.jpg" },
+							{ "url": "image2.jpg" },
+							{ "url": "image3.jpg" },
+						];
+						expect(element._computeArrayOfRelativeBoxSizes(images)).to.be.eql([1, 1, 1]);
+					});
+
+					test('return empty vectors if there are no pictures', function() {
 						expect(element._computeArrayOfRelativeBoxSizes([])).to.be.eql([]);
 					});
 				});
