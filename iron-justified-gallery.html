@@ -135,8 +135,10 @@ A gallery for images using flickr justified-layout.
 			// if the icon was tapped return the parent element
 			const box = e.target.nodeName === 'IRON-ICON' ? e.target.parentElement : e.target;
 			// find the index of the image that was tapped
-			const indexOfTappedImage = box.outerHTML.match(/\d+/);
-			this.fire('tap-image', this.images[indexOfTappedImage]);
+			const indexOfTappedImage = box.getAttribute('index');
+			if (indexOfTappedImage) {
+				this.fire('tap-image', this.images[indexOfTappedImage]);
+			}
 		},
 
 		/**
