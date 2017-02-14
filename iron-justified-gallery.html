@@ -77,10 +77,6 @@ A gallery for images using flickr justified-layout.
 			'tap': '_onTap'
 		},
 
-		ready: function() {
-			this._redraw();
-		},
-
 		/**
 		 * Generates the elements that are going to hold the images with the right positioning and dimensions.
 		 * Attaches the elements to the DOM.
@@ -92,6 +88,11 @@ A gallery for images using flickr justified-layout.
 		 *				to 200px.
 		 */
 		_renderImages: function(images, galleryWidth, rowHeight) {
+			if (!images || images.length === 0) {
+				// Ignore initial calls
+				return;
+			}
+
 			const galleryParameters = {
 				containerWidth: galleryWidth || this.offsetWidth,
 				targetRowHeight: rowHeight
@@ -122,7 +123,9 @@ A gallery for images using flickr justified-layout.
 		 * Function re-renders images if the input has changed
 		 */
 		_redraw: function() {
-			this._renderImages(this.images, this.galleryWidth, this.rowHeight);
+			// Avoid race condition on initial load: the data might be set
+			// before the width of the element is known
+			this.async(() => this._renderImages(this.images, this.galleryWidth, this.rowHeight));
 		},
 
 		/**
