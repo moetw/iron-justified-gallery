@@ -26,11 +26,11 @@
   "devDependencies": {
     "bower": "^1.7.7",
     "gulp": "^3.9.0",
-    "gulp-debug": "^2.1.2",
+    "gulp-debug": "^3.1.0",
     "gulp-ignore": "^2.0.1",
     "merge-stream": "^1.0.0",
     "polylint": "^2.9.0",
     "wct-local": "^2.0.12",
-    "web-component-tester": "^4.3.6"
+    "web-component-tester": "^5.0.0"
   }
 }
