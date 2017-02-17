@@ -1,4 +1,5 @@
-# iron-justified-gallery [![Build Status](https://travis-ci.org/Collaborne/iron-justified-gallery.svg?branch=master)](https://travis-ci.org/Collaborne/iron-justified-gallery)
+# iron-justified-gallery [![Build Status](https://travis-ci.org/Collaborne/iron-justified-gallery.svg?branch=master)](https://travis-ci.org/Collaborne/iron-justified-gallery) [![Greenkeeper badge](https://badges.greenkeeper.io/Collaborne/iron-justified-gallery.svg)](https://greenkeeper.io/)
+
 Polymer element that shows a pretty formatted gallery (using the Flickr justified-layout library)
 
 ## Install
